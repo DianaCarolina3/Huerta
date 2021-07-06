@@ -2,6 +2,9 @@ const statusResponseMessage = {
   200: 'OK',
   201: 'Created',
   204: 'No Content',
+  301: 'Moved Permanently',
+  307: 'Temporary Redirect',
+  308: 'Permanent Redirect',
   400: 'Bad Request',
   401: 'Inauthorized',
   402: 'Payment Required',
@@ -17,7 +20,7 @@ const statusResponseMessage = {
   505: 'HTTP Version Not Supported',
 }
 
-module.success = (req, res, message, status, error) => {
+exports.success = (req, res, message, status, error) => {
   let statusCode = status
   let statusMessage = message
 
@@ -37,7 +40,7 @@ module.success = (req, res, message, status, error) => {
   })
 }
 
-module.error = (req, res, message, status, error) => {
+exports.error = (req, res, message, status, error) => {
   let statusCode = status
   let statusMessage = message
 
@@ -48,7 +51,7 @@ module.error = (req, res, message, status, error) => {
     statusMessage = statusResponseMessage[status]
   }
 
-  error = true
+  error = true + ' : ' + error
 
   res.status(statusCode).send({
     status: statusCode,

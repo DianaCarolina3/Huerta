@@ -1,19 +1,34 @@
 const express = require('express')
 
+const router = require('./routes/router')
+const config = require('./config')
 const path = require('path')
+const slash = require('express-slash')
 
-//app
+//app-server
 const app = express()
-//configuration
+
+//middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-app.use('/static', express.static(path.join(__dirname)), 'public')
-
-app.use('/', (req, res) => {
+//redirect
+app.get('/', (req, res) => {
   res.redirect('/huerta')
 })
 
-const server = app.listen(3000, () => {
-  console.log(`Listening on http://localhost:${server.address().port}`)
+//static files
+app.use('/huerta', express.static(path.join(__dirname, 'public')))
+
+//router
+router(app)
+
+//slash
+app.use(slash())
+
+//errors
+
+//server
+const server = app.listen(config.port, () => {
+  console.log(`Listening to http://localhost:${server.address().port}`)
 })
