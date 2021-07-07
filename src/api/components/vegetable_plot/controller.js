@@ -23,7 +23,7 @@ module.exports = (injetorStore) => {
       id,
       data,
     }
-    return store.insert(TABLE, orchard).then(() => orchard)
+    return store.insert_vege(TABLE, orchard).then(() => orchard)
   }
 
   const update = (data, id) => {
@@ -31,11 +31,11 @@ module.exports = (injetorStore) => {
       id,
       data,
     }
-    return store.update(TABLE, orchard, id).then(() => orchard)
+    return store.update_vege(TABLE, orchard, id).then(() => orchard)
   }
 
   const remove = (id) => {
-    return store.remove(TABLE, id)
+    return store.remove_vege(TABLE, id)
   }
 
   return {

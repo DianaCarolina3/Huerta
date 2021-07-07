@@ -46,6 +46,45 @@ const insert = async (table, data) => {
   }
 }
 
+const update = async (table, data, id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(`SELECT * FROM ${table} WHERE id=$1`, [id], (err, result) => {
+      if (err) return reject(err)
+
+      let item = result.rows[0].vegetable
+
+      return resolve(
+        pool.query(`UPDATE ${table} SET vegetable=$1 WHERE id=$2`, [
+          data.data.vegetable,
+          id,
+        ]) &&
+          setTimeout(() => {
+            pool.query(`ALTER TABLE ${item} RENAME TO ${data.data.vegetable}`)
+          }, 500)
+      )
+    })
+  })
+}
+
+const remove = async (table, id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(`SELECT * FROM "${table}" ORDER BY id ASC`, (err, result) => {
+      if (err) return reject(err)
+
+      let item = result.rows[0].vegetable
+
+      return resolve(
+        pool.query(`DELETE FROM "${table}" WHERE id=$1`, [id]) &&
+          setTimeout(() => {
+            pool.query(`DROP TABLE ${item}`)
+          }, 500)
+      )
+    })
+  })
+}
+
 module.exports = {
   insert,
+  update,
+  remove,
 }

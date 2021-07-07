@@ -57,7 +57,7 @@ function update(req, res, next) {
   controller
     .update(req.body, req.params.id)
     .then((data) => {
-      response.success(req, res, data.message, 201)
+      response.success(req, res, data, 201)
     })
     .catch((err) => {
       response.error(req, res, 'Internal error', 500, err)
@@ -72,7 +72,7 @@ function remove(req, res, next) {
       response.success(req, res, 'Successfully removed ' + req.params.id, 200)
     })
     .catch((err) => {
-      response.error(req, res, 'Internal error', 500, err)
+      response.error(req, res, 'Internal error', 500, err.message)
       next(err)
     })
 }

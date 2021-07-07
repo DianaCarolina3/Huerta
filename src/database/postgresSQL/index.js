@@ -2,10 +2,17 @@ const pool = require('../../connection')
 
 //vegetable_plot
 const insert_vegetable = require('./vegetable_plot_pg')
+const update_vegetable = require('./vegetable_plot_pg')
 
 //vegetable_plot
-async function insert(table, data) {
+async function insert_vege(table, data) {
   return await insert_vegetable.insert(table, data)
+}
+async function update_vege(table, data, id) {
+  return await update_vegetable.update(table, data, id)
+}
+async function remove_vege(table, id) {
+  return await update_vegetable.remove(table, id)
 }
 
 //FUNCTIONS LIST, GET, REMOVE DEFAULT
@@ -44,5 +51,7 @@ module.exports = {
   get,
   remove,
   //vegetable_plot
-  insert,
+  insert_vege,
+  update_vege,
+  remove_vege,
 }
