@@ -51,8 +51,6 @@ exports.error = (req, res, message, status, error) => {
     statusMessage = statusResponseMessage[status]
   }
 
-  error = true + ' : ' + error
-
   res.status(statusCode).send({
     status: statusCode,
     message: statusMessage,

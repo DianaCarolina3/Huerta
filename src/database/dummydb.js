@@ -1,5 +1,5 @@
 const db = {
-  vegateble: null,
+  vegetable: null,
 }
 
 const list = async (table) => {
@@ -7,8 +7,13 @@ const list = async (table) => {
 }
 
 const get = async (table, id) => {
-  let collection = await list(table)
-  return collection.filter((item) => item.id === id)[0] || null
+  if (!id) {
+    return '[Error] No id'
+  }
+
+  let collection = await db[table]
+  let filterID = collection.filter((item) => item.id == id)[0]
+  return filterID
 }
 
 const insert = async (table, data) => {
@@ -21,20 +26,24 @@ const insert = async (table, data) => {
 }
 
 const update = async (table, data, id) => {
+  if (!id) {
+    return '[Error] No id'
+  }
+
   if (db[table]) {
     db[table] = []
   }
 
-  let dataID = await db[table].filter((item) => item.id === id)
-  if (dataID === id) {
+  let collection = await db[table]
+  let filterID = collection.filter((item) => item.id == id)[0]
+
+  if (filterID) {
     return db[table].push(data)
   }
 }
 
 const remove = async (table, id) => {
-  let collection = (await db[table]) || []
-  delete collection.filter((item) => item.id === id)
-  return collection.filter((item) => item.id === id)
+  delete db[table].filter((item) => item.id === id)[0]
 }
 
 module.exports = {

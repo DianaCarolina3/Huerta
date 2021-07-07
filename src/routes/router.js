@@ -1,4 +1,4 @@
-const vegetable_plot = require('../components/vegetable_plot/network')
+const vegetable_plot = require('../api/components/vegetable_plot/network')
 // const photo = require('../components/photo/network')
 // const compost = require('../components/compost/network')
 
