@@ -22,6 +22,7 @@ module.exports = (injetorStore) => {
     let orchard = {
       id,
       data,
+      creation_date: new Date(),
     }
     return store.insert_vege(TABLE, orchard).then(() => orchard)
   }
@@ -30,6 +31,7 @@ module.exports = (injetorStore) => {
     let orchard = {
       id,
       data,
+      creation_date: new Date(),
     }
     return store.update_vege(TABLE, orchard, id).then(() => orchard)
   }

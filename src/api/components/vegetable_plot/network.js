@@ -5,6 +5,7 @@ const response = require('../../../response')
 
 const router = express.Router()
 
+//routes
 router.get('/', list)
 router.get('/:id', getItem)
 router.post('/', insert)

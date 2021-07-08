@@ -20,9 +20,10 @@ const insert = async (table, data) => {
         status character varying,
         plague boolean,
         plague_type character varying,
-        transplant character varying,
-        plant_in_one integer,
+        transplant boolean,
+        transplant_date date,
         place character varying,
+        plant_in_one integer,
         "request" text,
         harvest date,
         note text,
@@ -35,8 +36,8 @@ const insert = async (table, data) => {
     //iserta nueva verdura
     return new Promise((resolve, reject) => {
       pool.query(
-        `INSERT INTO ${table} (id, vegetable) VALUES ($1, $2)`,
-        [data.id, data.data.vegetable],
+        `INSERT INTO ${table} (id, vegetable, creation_date) VALUES ($1, $2, $3)`,
+        [data.id, data.data.vegetable, data.creation_date],
         (err, result) => {
           if (err) return reject(err)
           resolve(result.rows)
@@ -51,15 +52,21 @@ const update = async (table, data, id) => {
     pool.query(`SELECT * FROM ${table} WHERE id=$1`, [id], (err, result) => {
       if (err) return reject(err)
 
-      let item = result.rows[0].vegetable
+      let itemOld = result.rows[0].vegetable
 
       return resolve(
-        pool.query(`UPDATE ${table} SET vegetable=$1 WHERE id=$2`, [
-          data.data.vegetable,
-          id,
-        ]) &&
+        pool.query(
+          `UPDATE ${table} SET vegetable=$1 , creation_date=$2 WHERE id=$3`,
+          [data.data.vegetable, data.creation_date, id]
+        ) &&
           setTimeout(() => {
-            pool.query(`ALTER TABLE ${item} RENAME TO ${data.data.vegetable}`)
+            pool.query(
+              `ALTER TABLE ${itemOld} RENAME TO ${data.data.vegetable}`
+            )
+          }, 500) &&
+          setTimeout(() => {
+            pool.query(`ALTER TABLE ${data.data.vegetable}
+               RENAME CONSTRAINT pkey_${itemOld}_id_plant TO pkey_${data.data.vegetable}_id_plant`)
           }, 500)
       )
     })
