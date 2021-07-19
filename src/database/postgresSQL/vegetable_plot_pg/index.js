@@ -13,33 +13,22 @@ const insert = async (table, data) => {
     await pool.query(`CREATE TABLE ${data.data.vegetable}
     (
         id_plant character varying,
-        "number" integer,
-        live boolean,
+        "number" serial,
         sowing_date date,
-        last_review date,
-        status character varying,
-        plague boolean,
-        plague_type character varying,
-        transplant boolean,
-        transplant_date date,
-        place character varying,
-        plant_in_one integer,
-        "request" text,
-        harvest date,
-        note text,
-        photo text,
+        creation_date text,
         CONSTRAINT pkey_${data.data.vegetable}_id_plant PRIMARY KEY (id_plant)
     );
     ALTER TABLE ${data.data.vegetable}
         OWNER to diana_carolina;`)
 
-    //iserta nueva verdura
+    //inserta nueva verdura
     return new Promise((resolve, reject) => {
       pool.query(
         `INSERT INTO ${table} (id, vegetable, creation_date) VALUES ($1, $2, $3)`,
         [data.id, data.data.vegetable, data.creation_date],
         (err, result) => {
           if (err) return reject(err)
+
           resolve(result.rows)
         }
       )
@@ -47,7 +36,7 @@ const insert = async (table, data) => {
   }
 }
 
-const update = async (table, data, id) => {
+const update = (table, data, id) => {
   return new Promise((resolve, reject) => {
     pool.query(`SELECT * FROM ${table} WHERE id=$1`, [id], (err, result) => {
       if (err) return reject(err)
@@ -63,29 +52,51 @@ const update = async (table, data, id) => {
             pool.query(
               `ALTER TABLE ${itemOld} RENAME TO ${data.data.vegetable}`
             )
-          }, 500) &&
+          }, 200) &&
           setTimeout(() => {
             pool.query(`ALTER TABLE ${data.data.vegetable}
                RENAME CONSTRAINT pkey_${itemOld}_id_plant TO pkey_${data.data.vegetable}_id_plant`)
-          }, 500)
+          }, 200)
       )
     })
   })
 }
 
-const remove = async (table, id) => {
+const remove = (table, id) => {
   return new Promise((resolve, reject) => {
     pool.query(`SELECT * FROM "${table}" ORDER BY id ASC`, (err, result) => {
       if (err) return reject(err)
 
-      let item = result.rows[0].vegetable
+      //obtengo id
+      let item = result.rows
+        .map((item) => item.id)
+        .find((element) => element === id)
 
-      return resolve(
-        pool.query(`DELETE FROM "${table}" WHERE id=$1`, [id]) &&
-          setTimeout(() => {
-            pool.query(`DROP TABLE ${item}`)
-          }, 500)
-      )
+      //si el item es igual al id procedo
+      if (item) {
+        let value = result.rows
+          .map((element) => element)
+          .filter((element) => element.id === item)
+
+        //y busco el valor del vegetable
+        if (value) {
+          let total = value[0].vegetable
+
+          //elimino la tabla del vegetable y el vegetable
+          return resolve(
+            //elimina registro del vegetal de vegetable_plot
+            pool.query(`DELETE FROM "${table}" WHERE id=$1`, [id]) &&
+              setTimeout(() => {
+                //elimina tabla del vegetal
+                pool.query(`DROP TABLE ${total}`)
+              }, 200),
+            setTimeout(() => {
+              //elimina registro del vegetal en vegetable
+              pool.query(`DELETE FROM "vegetable" WHERE id_vegetable =$1`, [id])
+            }, 200)
+          )
+        }
+      }
     })
   })
 }
