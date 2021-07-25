@@ -21,7 +21,7 @@ const insert = (table, data) => {
       }
     )
 
-    //inserta valores
+    //inserta valores en tablas creando una verdura
     setTimeout(() => {
       pool.query(
         `INSERT INTO ${table} (id_vegetable, id, sowing_date)
@@ -32,6 +32,12 @@ const insert = (table, data) => {
 
           resolve(result.rows)
         }
+      )
+      pool.query(
+        `INSERT INTO vegetable_data(
+        id_plant, last_review)
+        VALUES ($1, $2)`,
+        [data.id, data.sowing_date]
       )
     }, 100)
   })
@@ -71,6 +77,16 @@ const remove = (table, id, data) => {
 
     pool.query(
       `DELETE FROM ${data}
+    WHERE id_plant = $1;`,
+      [id],
+      (err, result) => {
+        if (err) return reject(err)
+
+        resolve(result.rows)
+      }
+    )
+    pool.query(
+      `DELETE FROM vegetable_data
     WHERE id_plant = $1;`,
       [id],
       (err, result) => {

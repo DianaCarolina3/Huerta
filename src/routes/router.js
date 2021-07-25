@@ -8,8 +8,11 @@ const API = '/huerta'
 
 const routes = (server) => {
   server.use(`${API}/vegetable_plot`, vegetable_plot)
-  server.use(`${API}/vege`, vegetable)
+  server.use(`${API}/v`, vegetable)
   server.use(`${API}/vegetable_data`, vegetable_data)
+  // server.use(`${API}/v_info`, vegetable_info)
+  // server.use(`${API}/v_place`, vegetable_place)
+  // server.use(`${API}/v_plague`, vegetable_plague)
   // server.use('/photo', photo)
   // server.use('/compost', compost)
 }
