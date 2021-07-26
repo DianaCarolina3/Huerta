@@ -33,12 +33,14 @@ const insert = (table, data) => {
           resolve(result.rows)
         }
       )
+      //arreglar data
       pool.query(
         `INSERT INTO vegetable_data(
         id_plant, last_review)
         VALUES ($1, $2)`,
-        [data.id, data.sowing_date]
+        [data.id, new Date()]
       )
+      //
       pool.query(
         `INSERT INTO vegetable_info(
         id_plant, request)
@@ -50,6 +52,24 @@ const insert = (table, data) => {
         id_plant)
         VALUES ($1)`,
         [data.id]
+      )
+      pool.query(
+        `INSERT INTO vegetable_place(
+        id_plant)
+        VALUES ($1)`,
+        [data.id]
+      )
+      pool.query(
+        `INSERT INTO vegetable_plague(
+        id_plant, plague, plague_type)
+        VALUES ($1, $2, $3)`,
+        [data.id, false, 'Ninguna']
+      )
+      pool.query(
+        `INSERT INTO vegetable_transplant(
+        id_plant, transplant)
+        VALUES ($1, $2)`,
+        [data.id, false]
       )
     }, 100)
   })

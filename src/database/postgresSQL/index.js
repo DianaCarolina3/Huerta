@@ -4,7 +4,10 @@ const vegetable_plot = require('./vegetable_plot_pg')
 const vegetable = require('./vegetable_pg')
 const vegetable_data = require('./vegetable_data_pg')
 const vegetable_info = require('./vegetable_info_pg')
-const vegetable_photo = require('./vegetable_info_pg')
+const vegetable_photo = require('./vegetable_photo_pg')
+const vegetable_place = require('./vegetable_place_pg')
+const vegetable_plague = require('./vegetable_plague_pg')
+const vegetable_transplant = require('./vegetable_transplant_pg')
 
 //vegetables
 async function insert_vege(table, data) {
@@ -26,6 +29,12 @@ async function update_vege(table, data, id) {
     return await vegetable_info.update(table, data, id)
   } else if (table === 'vegetable_photo') {
     return await vegetable_photo.update(table, data, id)
+  } else if (table === 'vegetable_place') {
+    return await vegetable_place.update(table, data, id)
+  } else if (table === 'vegetable_plague') {
+    return await vegetable_plague.update(table, data, id)
+  } else if (table === 'vegetable_transplant') {
+    return await vegetable_transplant.update(table, data, id)
   }
 }
 
