@@ -3,6 +3,8 @@ const pool = require('../../connection')
 const vegetable_plot = require('./vegetable_plot_pg')
 const vegetable = require('./vegetable_pg')
 const vegetable_data = require('./vegetable_data_pg')
+const vegetable_info = require('./vegetable_info_pg')
+const vegetable_photo = require('./vegetable_info_pg')
 
 //vegetables
 async function insert_vege(table, data) {
@@ -20,6 +22,10 @@ async function update_vege(table, data, id) {
     return await vegetable.update(table, data, id)
   } else if (table === 'vegetable_data') {
     return await vegetable_data.update(table, data, id)
+  } else if (table === 'vegetable_info') {
+    return await vegetable_info.update(table, data, id)
+  } else if (table === 'vegetable_photo') {
+    return await vegetable_photo.update(table, data, id)
   }
 }
 

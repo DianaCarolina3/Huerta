@@ -39,6 +39,18 @@ const insert = (table, data) => {
         VALUES ($1, $2)`,
         [data.id, data.sowing_date]
       )
+      pool.query(
+        `INSERT INTO vegetable_info(
+        id_plant, request)
+        VALUES ($1, $2)`,
+        [data.id, 'Ninguna']
+      )
+      pool.query(
+        `INSERT INTO vegetable_photo(
+        id_plant)
+        VALUES ($1)`,
+        [data.id]
+      )
     }, 100)
   })
 }
@@ -77,16 +89,6 @@ const remove = (table, id, data) => {
 
     pool.query(
       `DELETE FROM ${data}
-    WHERE id_plant = $1;`,
-      [id],
-      (err, result) => {
-        if (err) return reject(err)
-
-        resolve(result.rows)
-      }
-    )
-    pool.query(
-      `DELETE FROM vegetable_data
     WHERE id_plant = $1;`,
       [id],
       (err, result) => {
