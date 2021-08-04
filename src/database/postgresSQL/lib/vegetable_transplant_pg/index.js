@@ -1,11 +1,15 @@
-const pool = require('../../../connection')
+const pool = require('../../../../connection_pg')
 
 const update = (table, data, id) => {
+  if (!data.transplant_date) {
+    throw new Error('No transplant_date specified in request')
+  }
+
   return new Promise((resolve, reject) => {
     pool.query(
-      `UPDATE ${table} SET place=$2, plant_in_one=$3
+      `UPDATE ${table} SET transplant=$2, transplant_date=$3
     WHERE id_plant=$1`,
-      [id, data.place, data.plant_in_one],
+      [id, data.transplant, data.transplant_date],
       (err, result) => {
         if (err) return reject(err)
 

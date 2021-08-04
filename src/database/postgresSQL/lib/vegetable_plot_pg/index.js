@@ -1,4 +1,4 @@
-const pool = require('../../../connection')
+const pool = require('../../../../connection_pg')
 
 const insert = async (table, data) => {
   //si existe la verdura no la crea

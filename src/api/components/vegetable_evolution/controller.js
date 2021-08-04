@@ -1,4 +1,4 @@
-const TABLE = 'vegetable_data'
+const TABLE = 'vegetable_evolution'
 
 module.exports = function (injectorStore) {
   let store = injectorStore
@@ -17,10 +17,10 @@ module.exports = function (injectorStore) {
 
   const update = (id, body) => {
     const data = {
-      id: id,
-      live: body.live,
-      status: body.status,
-      last_review: body.last_review,
+      id_plant: id,
+      height_width: body.height_width,
+      thick: body.thick,
+      date: body.date,
     }
 
     return store.update_vege(TABLE, data, id).then(() => data)

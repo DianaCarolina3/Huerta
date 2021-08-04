@@ -1,13 +1,14 @@
-const pool = require('../../connection')
+const pool = require('../../../connection_pg')
 
-const vegetable_plot = require('./vegetable_plot_pg')
-const vegetable = require('./vegetable_pg')
-const vegetable_data = require('./vegetable_data_pg')
-const vegetable_info = require('./vegetable_info_pg')
-const vegetable_photo = require('./vegetable_photo_pg')
-const vegetable_place = require('./vegetable_place_pg')
-const vegetable_plague = require('./vegetable_plague_pg')
-const vegetable_transplant = require('./vegetable_transplant_pg')
+const vegetable_plot = require('../lib/vegetable_plot_pg')
+const vegetable = require('../lib/vegetable_pg')
+const vegetable_data = require('../lib/vegetable_data_pg')
+const vegetable_info = require('../lib/vegetable_info_pg')
+const vegetable_photo = require('../lib/vegetable_photo_pg')
+const vegetable_place = require('../lib/vegetable_place_pg')
+const vegetable_plague = require('../lib/vegetable_plague_pg')
+const vegetable_transplant = require('../lib/vegetable_transplant_pg')
+const vegetable_evolution = require('../lib/vegetable_evolution_pg')
 
 //vegetables
 async function insert_vege(table, data) {
@@ -35,6 +36,8 @@ async function update_vege(table, data, id) {
     return await vegetable_plague.update(table, data, id)
   } else if (table === 'vegetable_transplant') {
     return await vegetable_transplant.update(table, data, id)
+  } else if (table === 'vegetable_evolution') {
+    return await vegetable_evolution.update(table, data, id)
   }
 }
 

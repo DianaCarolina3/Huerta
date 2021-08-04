@@ -1,4 +1,4 @@
-const pool = require('../../../connection')
+const pool = require('../../../../connection_pg')
 
 const insert = (table, data) => {
   return new Promise((resolve, reject) => {
@@ -33,19 +33,19 @@ const insert = (table, data) => {
           resolve(result.rows)
         }
       )
-      //arreglar data
-      pool.query(
-        `INSERT INTO vegetable_data(
-        id_plant, last_review)
-        VALUES ($1, $2)`,
-        [data.id, new Date()]
-      )
-      //
+      setTimeout(() => {
+        pool.query(
+          `INSERT INTO vegetable_data(
+          id_plant, live)
+          VALUES ($1, $2)`,
+          [data.id, true]
+        )
+      }, 100)
       pool.query(
         `INSERT INTO vegetable_info(
-        id_plant, request)
-        VALUES ($1, $2)`,
-        [data.id, 'Ninguna']
+        id_plant, request, note)
+        VALUES ($1, $2, $3)`,
+        [data.id, 'Ninguna', 'Ninguna']
       )
       pool.query(
         `INSERT INTO vegetable_photo(
@@ -61,15 +61,21 @@ const insert = (table, data) => {
       )
       pool.query(
         `INSERT INTO vegetable_plague(
-        id_plant, plague, plague_type)
-        VALUES ($1, $2, $3)`,
-        [data.id, false, 'Ninguna']
+        id_plant)
+        VALUES ($1)`,
+        [data.id]
       )
       pool.query(
         `INSERT INTO vegetable_transplant(
         id_plant, transplant)
         VALUES ($1, $2)`,
         [data.id, false]
+      )
+      pool.query(
+        `INSERT INTO vegetable_evolution(
+        id_plant)
+        VALUES ($1)`,
+        [data.id]
       )
     }, 100)
   })

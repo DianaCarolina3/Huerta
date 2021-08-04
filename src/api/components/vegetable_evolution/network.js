@@ -5,7 +5,7 @@ const controller = require('./index')
 
 const router = express.Router()
 
-//ROUTES
+//ROUTER
 router.get('/', list)
 router.get('/:id_plant', getItem)
 router.patch('/:id_plant', update)
@@ -38,7 +38,7 @@ function update(req, res, next) {
   controller
     .update(req.params.id_plant, req.body)
     .then((data) => {
-      response.success(req, res, data, 201)
+      response.success(req, res, data, 200)
     })
     .catch((err) => {
       response.error(req, res, 'Internal error', 500, err.message)

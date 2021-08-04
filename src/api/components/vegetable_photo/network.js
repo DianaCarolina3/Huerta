@@ -8,7 +8,7 @@ const router = express.Router()
 //ROUTES
 router.get('/', list)
 router.get('/:id_plant', getItem)
-router.put('/:id_plant', update)
+router.patch('/:id_plant', update)
 
 function list(req, res, next) {
   controller
@@ -17,7 +17,7 @@ function list(req, res, next) {
       response.success(req, res, data, 200)
     })
     .catch((err) => {
-      response.error(req, res, 'Internal error', 500, err)
+      response.error(req, res, 'Internal error', 500, err.message)
       next(err)
     })
 }
@@ -29,7 +29,7 @@ function getItem(req, res, next) {
       response.success(req, res, data, 200)
     })
     .catch((err) => {
-      response.error(req, res, 'Internal error', 500, err)
+      response.error(req, res, 'Internal error', 500, err.message)
       next(err)
     })
 }
@@ -41,7 +41,7 @@ function update(req, res, next) {
       response.success(req, res, data, 201)
     })
     .catch((err) => {
-      response.error(req, res, 'Internal error', 500, err)
+      response.error(req, res, 'Internal error', 500, err.message)
       next(err)
     })
 }

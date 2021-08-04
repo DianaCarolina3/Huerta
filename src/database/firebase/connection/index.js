@@ -1,5 +1,5 @@
 const firebase = require('firebase')
-const config = require('../../config')
+const config = require('../../../config')
 
 firebase.initializeApp({
   apikey: config.firebase.apikey,
@@ -14,23 +14,6 @@ firebase.initializeApp({
 
 const db = firebase.firestore()
 
-db.collection('users')
-  .add({
-    first: 'Ada',
-    last: 'Lovelace',
-    born: 1815,
-  })
-  .then((docRef) => {
-    console.log('Document written with ID: ', docRef.id)
-  })
-  .catch((error) => {
-    console.error('Error adding document: ', error)
-  })
-
-db.collection('users')
-  .get()
-  .then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`)
-    })
-  })
+module.exports = {
+  db,
+}

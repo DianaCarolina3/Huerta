@@ -6,6 +6,7 @@ const vegetable_photo = require('../api/components/vegetable_photo/network')
 const vegetable_place = require('../api/components/vegetable_place/network')
 const vegetable_plague = require('../api/components/vegetable_plague/network')
 const vegetable_transplant = require('../api/components/vegetable_transplant/network')
+const vegetable_evolution = require('../api/components/vegetable_evolution/network')
 
 // const photo = require('../components/photo/network')
 // const compost = require('../components/compost/network')
@@ -21,6 +22,7 @@ const routes = (server) => {
   server.use(`${API}/vegetable_place`, vegetable_place)
   server.use(`${API}/vegetable_plague`, vegetable_plague)
   server.use(`${API}/vegetable_transplant`, vegetable_transplant)
+  server.use(`${API}/vegetable_evolution`, vegetable_evolution)
   // server.use('/photo', photo)
   // server.use('/compost', compost)
 }
