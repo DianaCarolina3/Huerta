@@ -1,22 +1,71 @@
 const db = require('../connection')
+console.log('Successfully connection to Firebase')
 
-db.collection('users')
-  .add({
-    first: 'Ada',
-    last: 'Lovelace',
-    born: 1815,
-  })
-  .then((docRef) => {
-    console.log('Document written with ID: ', docRef.id)
-  })
-  .catch((error) => {
-    console.error('Error adding document: ', error)
-  })
+const vegetable_plot = require('../lib/vegetable_plot_fb')
 
-db.collection('users')
-  .get()
-  .then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`)
-    })
+const insert_vege = async (table, data) => {
+  if (table === 'vegetable_plot') {
+    return await vegetable_plot.insert(table, data)
+  }
+}
+
+const list = async (table) => {
+  return new Promise((resolve, reject) => {
+    const docRef = db.collection(table).doc('vege').get()
+
+    docRef
+      .then((doc) => {
+        if (doc.exists) {
+          resolve(doc.data())
+        } else {
+          console.log('No such document!')
+        }
+      })
+      .catch((err) => {
+        reject(err)
+      })
   })
+}
+
+const get = async (table) => {
+  return new Promise((resolve, reject) => {
+    const docRef = db.collection(table).doc('vege').get()
+
+    docRef
+      .then((doc) => {
+        if (doc.exists) {
+          resolve(doc.data())
+        } else {
+          console.log('No such document!')
+        }
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
+const remove = async (table) => {
+  return new Promise((resolve, reject) => {
+    const docRef = db.collection(table).doc('vege').get()
+
+    docRef
+      .then((doc) => {
+        if (doc.exists) {
+          resolve(doc.data())
+        } else {
+          console.log('No such document!')
+        }
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
+module.exports = {
+  list,
+  get,
+  remove,
+  insert_vege,
+}

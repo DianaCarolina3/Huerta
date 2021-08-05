@@ -14,6 +14,4 @@ firebase.initializeApp({
 
 const db = firebase.firestore()
 
-module.exports = {
-  db,
-}
+module.exports = db

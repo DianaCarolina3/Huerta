@@ -21,7 +21,7 @@ function handleConnection() {
       console.log(['Error connection'], err)
 
       //conecta de nuevo en 2s
-      setTimeout(handleConnection, 2000)
+      setTimeout(handleConnection, 500)
     } else {
       console.log('Successfully connection to Postgres')
     }
