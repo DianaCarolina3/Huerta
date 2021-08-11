@@ -4,12 +4,17 @@
   "description": "Este proyecto es la creacion de la base de datos de la huerta casera, en el cual llevare el registro de toda la huerta y su evolución.",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "cross-env NODE_ENV=dev node src/index.js",
     "dev": "nodemon src/index.js",
+    "dev:inspect": "nodemon --inspect",
+    "dev:debug": "set DEBUG=express:*,app:* & npm run dev",
+    "debug": "set DEBUG=express:*,app:* & npm run start",
     "prepare": "husky install",
     "prettier": "prettier . --write",
     "lint": "eslint . --fix",
-    "fix": "npm run prettier && npm run lint"
+    "fix": "npm run prettier && npm run lint",
+    "docker": "docker run -d -p 3000:3000 huerta",
+    "docker:build": "docker build -t huerta ."
   },
   "keywords": [
     "postgresql",
@@ -21,17 +26,18 @@
   "author": "Diana Carolina Campuzano Garzon <dcaroli2015@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-slash": "^2.0.1",
     "firebase": "^8.6.8",
-    "nodemon": "^2.0.12",
     "pg": "^8.6.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "eslint": "^7.30.0",
     "husky": "^7.0.0",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "nodemon": "^2.0.12"
   }
 }

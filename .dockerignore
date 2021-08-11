@@ -1,0 +1,13 @@
+
+!README.md
+
+.git
+/unused/*
+Dockerfile
+.gitignore
+env.*
+/devops/*
+
+# To prevent storing dev/temporary container data
+*.csv
+/tmp/*
