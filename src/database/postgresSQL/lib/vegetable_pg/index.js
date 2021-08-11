@@ -1,4 +1,4 @@
-const pool = require('../../../../connection_pg')
+const pool = require('../../connection')
 
 const insert = (table, data) => {
   return new Promise((resolve, reject) => {

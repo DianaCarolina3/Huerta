@@ -1,4 +1,4 @@
-const pool = require('../../../../connection_pg')
+const pool = require('../../connection')
 
 const update = (table, data, id) => {
   if (!data.transplant_date) {

@@ -1,4 +1,4 @@
-const pool = require('../../../connection_pg')
+const pool = require('../connection')
 
 const vegetable_plot = require('../lib/vegetable_plot_pg')
 const vegetable = require('../lib/vegetable_pg')
