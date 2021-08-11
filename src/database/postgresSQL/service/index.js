@@ -3,7 +3,7 @@ const pool = require('../connection')
 const vegetable_plot = require('../lib/vegetable_plot_pg')
 const vegetable = require('../lib/vegetable_pg')
 const vegetable_data = require('../lib/vegetable_data_pg')
-const vegetable_info = require('../lib/vegetable_info_pg')
+const vegetable_req = require('../lib/vegetable_req_pg')
 const vegetable_photo = require('../lib/vegetable_photo_pg')
 const vegetable_place = require('../lib/vegetable_place_pg')
 const vegetable_plague = require('../lib/vegetable_plague_pg')
@@ -26,8 +26,8 @@ async function update_vege(table, data, id) {
     return await vegetable.update(table, data, id)
   } else if (table === 'vegetable_data') {
     return await vegetable_data.update(table, data, id)
-  } else if (table === 'vegetable_info') {
-    return await vegetable_info.update(table, data, id)
+  } else if (table === 'vegetable_req') {
+    return await vegetable_req.update(table, data, id)
   } else if (table === 'vegetable_photo') {
     return await vegetable_photo.update(table, data, id)
   } else if (table === 'vegetable_place') {

@@ -1,4 +1,4 @@
-const TABLE = 'vegetable_info'
+const TABLE = 'vegetable_req'
 
 module.exports = function (injectorStore) {
   let store = injectorStore
