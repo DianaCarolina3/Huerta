@@ -9,8 +9,8 @@ cual llevaré el registro de todas las plantas y su evolución.
 
 - Javascript
 - NodeJS
-- PostgrestSQL
 - Express
+- PostgrestSQL
 - Firebase
 
 ## License
