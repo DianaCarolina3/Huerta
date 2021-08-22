@@ -1,116 +1,73 @@
-/* eslint-disable no-unused-vars */
 const db = require('../connection')
 console.log('Successfully connection to Firebase')
 
 const vegetable_plot = require('../lib/vegetable_plot_fb')
+const vegetable = require('../lib/vegetable_fb')
+const vegetable_data = require('../lib/vegetable_data_fb')
+const vegetable_evolution = require('../lib/vegetable_evolution_fb')
 
 async function insert_vege(table, data) {
   if (table === 'vegetable_plot') {
     return await vegetable_plot.insert(table, data)
+  } else if (table === 'vegetable') {
+    return await vegetable.insert(table, data)
   }
-  //else if (table === 'vegetable') {
-  //   return await vegetable.insert(table, data)
-  // }
 }
 
 async function update_vege(table, data, id) {
   if (table === 'vegetable_plot') {
     return await vegetable_plot.update(table, data, id)
+  } else if (table === 'vegetable') {
+    return await vegetable.update(table, data, id)
+  } else if (table === 'vegetable_data') {
+    return await vegetable_data.update(table, data, id)
+  } else if (table === 'vegetable_evolution') {
+    return await vegetable_evolution.update(table, data, id)
   }
-  // else if (table === 'vegetable') {
-  //     return await vegetable.update(table, data, id)
-  //   } else if (table === 'vegetable_data') {
-  //     return await vegetable_data.update(table, data, id)
-  //   } else if (table === 'vegetable_info') {
-  //     return await vegetable_info.update(table, data, id)
-  //   } else if (table === 'vegetable_photo') {
-  //     return await vegetable_photo.update(table, data, id)
-  //   } else if (table === 'vegetable_place') {
-  //     return await vegetable_place.update(table, data, id)
-  //   } else if (table === 'vegetable_plague') {
-  //     return await vegetable_plague.update(table, data, id)
-  //   } else if (table === 'vegetable_transplant') {
-  //     return await vegetable_transplant.update(table, data, id)
-  //   } else if (table === 'vegetable_evolution') {
-  //     return await vegetable_evolution.update(table, data, id)
-  //   }
 }
 
-async function remove_vege(table, id, data) {
+async function remove_vege(table, id) {
   if (table === 'vegetable_plot') {
     return await vegetable_plot.remove(table, id)
   } else if (table === 'vegetable') {
-    // return await vegetable.remove(table, id, data)
+    return await vegetable.remove(table, id)
   }
 }
 
-function conversionTimestamp(timestamp) {
-  let time = new Date(timestamp * 1000)
-  let year = time.getFullYear()
-  let month = time.getUTCMonth()
-  let day = time.getDate()
-  let hour = time.getHours()
-  let min = time.getMinutes()
-  let sec = time.getSeconds()
-  time = `${month}:${day}:${year}:${hour}:${min}:${sec}`
-  return time
-}
-
 //FUNCTIONS LIST, GET, REMOVE DEFAULT
-const list = (table) => {
-  return new Promise((resolve, reject) => {
-    const docRef = db.collection(table).get()
-
-    docRef
-      .then((query) => {
-        query.forEach((doc) => {
-          let time_seconds = doc.data().creation_date.seconds
-          let time = conversionTimestamp(time_seconds)
-          return resolve([doc.data(), `Creation_date_time: ${time}`])
-        })
-      })
-      .catch((err) => {
-        return reject(err)
-      })
-  })
+const list = async (table) => {
+  try {
+    const data_list = await db.collection(table).get()
+    const data = data_list.docs.map((doc) => [doc.data(), { id: doc.id }])
+    return data
+  } catch (error) {
+    return error
+  }
 }
 
-const get = (table, id) => {
-  return new Promise((resolve, reject) => {
-    const docRef = db.collection(table).doc(id).get()
-
-    docRef
-      .then((doc) => {
-        if (doc.exists) {
-          let time_seconds = doc.data().creation_date.seconds
-          let time = conversionTimestamp(time_seconds)
-          return resolve([doc.data(), `Creation_date_time: ${time}`])
-        } else {
-          throw Error('No such document!')
-        }
+const get = async (table, id) => {
+  try {
+    const data_getId = await db
+      .collection(table)
+      .doc(id)
+      .get()
+      .then((docId) => {
+        return [docId.data(), { id: docId.id }]
       })
-      .catch((err) => {
-        return reject(err)
-      })
-  })
+    return data_getId
+  } catch (error) {
+    return error
+  }
 }
 
-const remove = (table, id) => {
-  return new Promise((resolve, reject) => {
-    const docRef = db.collection(table).doc(id).delete()
-
-    docRef
-      .then((doc) => {
-        if (doc.exists) {
-          return resolve(doc.id + ' deleted')
-        } else {
-          throw Error('No such document!')
-        }
-      })
-      .catch((err) => {
-        reject(err)
-      })
-  })
+const remove = async (table, id) => {
+  try {
+    const docRef = await db.collection(table).doc(id)
+    docRef.delete()
+    return id + ' deleted'
+  } catch (error) {
+    return error
+  }
 }
 
 module.exports = {

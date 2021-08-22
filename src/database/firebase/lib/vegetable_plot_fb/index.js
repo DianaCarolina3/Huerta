@@ -6,7 +6,6 @@ const insert = (table, data) => {
 
     docRef
       .set({
-        id: data.id,
         data: data.data,
         creation_date: data.creation_date,
       })
@@ -37,20 +36,14 @@ const update = (table, data, id) => {
   })
 }
 
-const remove = (table, id) => {
-  return new Promise((resolve, reject) => {
-    const docRef = db.collection(table).doc(id)
-
-    docRef
-      .delete((doc) => {
-        if (doc.exists) {
-          return resolve(doc.id + ' deleted')
-        }
-      })
-      .catch((err) => {
-        return reject(err)
-      })
-  })
+const remove = async (table, id) => {
+  try {
+    const docRef = await db.collection(table).doc(id)
+    docRef.delete()
+    return id + ' deleted'
+  } catch (error) {
+    return error
+  }
 }
 
 module.exports = {

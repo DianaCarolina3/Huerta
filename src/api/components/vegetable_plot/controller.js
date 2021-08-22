@@ -5,7 +5,7 @@ module.exports = (injetorStore) => {
   let store = injetorStore
 
   if (!store) {
-    store = require('../../../database/dummydb')
+    store = require('../../../database/firebase/service')
   }
 
   const list = async () => {

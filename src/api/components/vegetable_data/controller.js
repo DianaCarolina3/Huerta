@@ -4,7 +4,7 @@ module.exports = function (injectorStore) {
   let store = injectorStore
 
   if (!store) {
-    store = require('../../../database/dummydb')
+    store = require('../../../database/firebase/service')
   }
 
   const list = () => {
@@ -20,7 +20,7 @@ module.exports = function (injectorStore) {
       id: id,
       live: body.live,
       status: body.status,
-      last_review: body.last_review,
+      last_review: new Date(body.last_review),
     }
 
     return store.update_vege(TABLE, data, id).then(() => data)

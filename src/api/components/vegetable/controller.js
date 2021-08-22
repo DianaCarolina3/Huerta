@@ -5,7 +5,7 @@ module.exports = function (injectorStore) {
   let store = injectorStore
 
   if (!store) {
-    store = require('../../../database/dummydb')
+    store = require('../../../database/firebase/service')
   }
 
   const list = (table) => {
@@ -21,7 +21,7 @@ module.exports = function (injectorStore) {
       vegetable: body.id,
       id_vegetable: IDvege,
       id: body.id + '-' + uuidv4(),
-      sowing_date: body.sowing_date,
+      sowing_date: new Date(body.sowing_date),
     }
 
     return store.insert_vege(TABLE, data).then(() => data)
@@ -33,7 +33,7 @@ module.exports = function (injectorStore) {
     const data = {
       string,
       id_vegetable: body.id_vegetable,
-      sowing_date: body.sowing_date,
+      sowing_date: new Date(body.sowing_date),
     }
 
     return store.update_vege(table, data, id).then(() => data)

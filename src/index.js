@@ -30,5 +30,5 @@ app.use(slash())
 
 //server
 const server = app.listen(config.port, () => {
-  console.log(`Listening to http://localhost:${server.address().port}`)
+  console.log(`Listening to http://${config.host}:${server.address().port}`)
 })
